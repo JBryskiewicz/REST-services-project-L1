@@ -16,7 +16,7 @@ public class RestServicesProjectL1Application {
 	@Bean
 	CommandLineRunner run(OpenWeatherService weatherService) {
 		return args -> {
-			weatherService.printFirstWeatherRecord("London");
+			weatherService.getWeather("Warsaw").printDetails();
 		};
 	}
 }
