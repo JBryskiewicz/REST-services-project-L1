@@ -4,8 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.aeh.rest_services_project_l1.domain.open_weather.Weather;
 
-// TODO currently testing options...
-
 @Service
 public class OpenWeatherService {
 
