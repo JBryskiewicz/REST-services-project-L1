@@ -1,4 +1,4 @@
-package pl.aeh.rest_services_project_l1.config;
+package pl.aeh.rest_services_project_l1.service;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
