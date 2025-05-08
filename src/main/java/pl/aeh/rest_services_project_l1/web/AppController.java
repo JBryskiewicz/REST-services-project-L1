@@ -28,10 +28,10 @@ public class AppController {
        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/getTestData/{cityName}/{cityId}")
-    public ResponseEntity<RegionInfoResponse> getAnyData(@PathVariable String cityName, @PathVariable String cityId) {
+    @GetMapping("/getTestData/{cityName}/{countryId}")
+    public ResponseEntity<RegionInfoResponse> getAnyData(@PathVariable String cityName, @PathVariable String countryId) {
 
-        CitySearch foundCity = this.rapidGeoDBService.getCityByName(cityName, cityId);
+        CitySearch foundCity = this.rapidGeoDBService.getCityByName(cityName, countryId);
         Weather weather = this.openWeatherService.getWeather(cityName);
 
         if (foundCity == null || weather == null) {

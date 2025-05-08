@@ -15,8 +15,8 @@ public class RapidGeoDBService {
     private final String API_KEY = "f0900d73femsh4aa84ce79f332c8p1eafe2jsnbe2c326ac440";
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public CitySearch getCityByName(String cityName, String cityId) {
-        String url = REQUEST_URL + "?namePrefix=" + cityName + "&countryIds=" + cityId;
+    public CitySearch getCityByName(String cityName, String countryId) {
+        String url = REQUEST_URL + "?namePrefix=" + cityName + "&countryIds=" + countryId;
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-RapidAPI-Key", API_KEY);
