@@ -33,7 +33,6 @@ public class SecurityConfig {
                 .csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/user/**",
                                 "/api/main/**"
                         )
                         .permitAll()

@@ -21,10 +21,10 @@ public class AppUserService {
         return appUserRepository.getAppUserByEmail(email);
     }
 
-    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
-        AppUser appUser = appUserRepository.getAppUserByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        AppUser appUser = appUserRepository.getAppUserByUsername(username);
         if (appUser == null) {
-            throw new UsernameNotFoundException(email);
+            throw new UsernameNotFoundException(username);
         }
 
         return org.springframework.security.core.userdetails.User

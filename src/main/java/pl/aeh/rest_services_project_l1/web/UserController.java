@@ -43,7 +43,7 @@ public class UserController {
     public ResponseEntity<?> authAppUser(@RequestBody AuthRequest request) {
         if (request == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        AppUser user = this.appUserService.getUser(request.getEmail());
+        AppUser user = this.appUserService.getUser(request.getUsername());
 
         if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             String token = this.jwtService.generateToken(user.getUsername());
@@ -51,6 +51,5 @@ public class UserController {
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
     }
 }
