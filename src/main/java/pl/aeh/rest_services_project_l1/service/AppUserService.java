@@ -4,21 +4,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.aeh.rest_services_project_l1.AppUserRepository;
+import pl.aeh.rest_services_project_l1.repository.AppUserRepository;
 import pl.aeh.rest_services_project_l1.domain.user.AppUser;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AppUserService {
     private final AppUserRepository appUserRepository;
 
-
     public AppUser saveUser(AppUser user) {
         return appUserRepository.save(user);
     }
 
-    public AppUser getUser(String email) {
-        return appUserRepository.getAppUserByEmail(email);
+    public AppUser getUser(String username) {
+        return appUserRepository.getAppUserByUsername(username);
     }
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -12,7 +12,9 @@ import pl.aeh.rest_services_project_l1.domain.user.AuthRequest;
 import pl.aeh.rest_services_project_l1.domain.user.JwtResponse;
 import pl.aeh.rest_services_project_l1.service.AppUserService;
 
-@Controller()
+import java.util.List;
+
+@RestController()
 @AllArgsConstructor
 @RequestMapping("/api/user")
 public class UserController {
@@ -31,12 +33,22 @@ public class UserController {
 
         AppUser userToSave = new AppUser();
         userToSave.setUsername(user.getUsername());
-        userToSave.setEmail(user.getEmail());
         userToSave.setPassword(passwordEncoder.encode(user.getPassword()));
 
         this.appUserService.saveUser(userToSave);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<AppUser> getAllUsers() {
+        AppUser user = appUserService.getUser("admin");
+
+        if (user == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/login")

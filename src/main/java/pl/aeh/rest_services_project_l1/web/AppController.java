@@ -3,10 +3,10 @@ package pl.aeh.rest_services_project_l1.web;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.aeh.rest_services_project_l1.domain.geo_db.CitySearch;
 import pl.aeh.rest_services_project_l1.domain.open_weather.Weather;
 import pl.aeh.rest_services_project_l1.domain.response.RegionInfoResponse;
@@ -14,7 +14,7 @@ import pl.aeh.rest_services_project_l1.service.OpenWeatherService;
 import pl.aeh.rest_services_project_l1.service.RapidGeoDBService;
 import pl.aeh.rest_services_project_l1.service.UtilityService;
 
-@Controller()
+@RestController()
 @AllArgsConstructor
 @RequestMapping("/api/main")
 public class AppController {
