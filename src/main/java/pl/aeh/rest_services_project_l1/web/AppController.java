@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.aeh.rest_services_project_l1.domain.geo_db.CitySearch;
 import pl.aeh.rest_services_project_l1.domain.open_weather.Weather;
 import pl.aeh.rest_services_project_l1.domain.response.RegionInfoResponse;
-import pl.aeh.rest_services_project_l1.service.OpenWeatherService;
-import pl.aeh.rest_services_project_l1.service.RapidGeoDBService;
-import pl.aeh.rest_services_project_l1.service.UtilityService;
+import pl.aeh.rest_services_project_l1.service.app.OpenWeatherService;
+import pl.aeh.rest_services_project_l1.service.app.RapidGeoDBService;
+import pl.aeh.rest_services_project_l1.service.app.UtilityService;
 
 @RestController()
 @AllArgsConstructor
@@ -28,8 +28,8 @@ public class AppController {
        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/getTestData/{cityName}/{countryId}")
-    public ResponseEntity<RegionInfoResponse> getAnyData(@PathVariable String cityName, @PathVariable String countryId) {
+    @GetMapping("/getLocationData/{cityName}/{countryId}")
+    public ResponseEntity<RegionInfoResponse> getLocationData(@PathVariable String cityName, @PathVariable String countryId) {
 
         CitySearch foundCity = this.rapidGeoDBService.getCityByName(cityName, countryId);
         Weather weather = this.openWeatherService.getWeather(cityName);

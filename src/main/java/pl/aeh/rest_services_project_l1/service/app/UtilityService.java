@@ -1,4 +1,4 @@
-package pl.aeh.rest_services_project_l1.service;
+package pl.aeh.rest_services_project_l1.service.app;
 
 import org.springframework.stereotype.Service;
 import pl.aeh.rest_services_project_l1.domain.geo_db.CityData;

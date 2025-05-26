@@ -1,4 +1,4 @@
-package pl.aeh.rest_services_project_l1.service;
+package pl.aeh.rest_services_project_l1.service.app;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpEntity;
