@@ -32,6 +32,7 @@ public class AppUserService implements UserDetailsService {
 
     public String createUser(AppUser user) {
         user.setPassword(encoder.encode(user.getPassword()));
+        user.setRoles("ROLE_USER");
         repository.save(user);
         return "User Added Successfully";
     }

@@ -1,6 +1,7 @@
 package pl.aeh.rest_services_project_l1.web;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +12,13 @@ import pl.aeh.rest_services_project_l1.service.user.AppUserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import pl.aeh.rest_services_project_l1.service.user.JwtService;
 
+import java.util.HashMap;
+import java.util.Map;
+
+@Slf4j
 @RestController()
 @AllArgsConstructor
 @RequestMapping("/api/user")
@@ -25,24 +29,27 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
 
     @GetMapping("/check")
-    public String checkEndpoint() {
-        return "Endpoint - Public";
+    public ResponseEntity<String> checkEndpoint() {
+        return ResponseEntity.ok("ENDPOINT - PUBLIC");
     }
 
     @PostMapping("/register")
-    public String createAppUser(@RequestBody AppUser user) {
-        return this.appUserService.createUser(user);
+    public ResponseEntity<String> createAppUser(@RequestBody AppUser user) {
+        return ResponseEntity.ok(this.appUserService.createUser(user));
     }
 
     @PostMapping("/generateToken")
-    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+    public  ResponseEntity<Map<String, String>> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
         );
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(authRequest.getUsername());
+            String token = jwtService.generateToken(authRequest.getUsername());
+            Map<String, String> response = new HashMap<>();
+            response.put("token", token);
+            return ResponseEntity.ok(response);
         } else {
-            throw new UsernameNotFoundException("Invalid user request!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 }
