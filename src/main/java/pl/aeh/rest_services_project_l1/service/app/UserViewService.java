@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import pl.aeh.rest_services_project_l1.domain.user_views.UserView;
 import pl.aeh.rest_services_project_l1.repository.UserViewRepository;
 
+import java.util.List;
+
 @Service
 public class UserViewService {
 
@@ -15,6 +17,10 @@ public class UserViewService {
 
     public UserView saveUserView(UserView userView) {
         return this.userViewRepository.save(userView);
+    }
+
+    public List<UserView> getAllUserViews(Long userId) {
+        return this.userViewRepository.findByUserId(userId);
     }
 
     public UserView getUserView(long id) {

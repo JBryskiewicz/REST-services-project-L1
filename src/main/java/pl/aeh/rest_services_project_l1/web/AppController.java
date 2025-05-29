@@ -13,6 +13,8 @@ import pl.aeh.rest_services_project_l1.service.app.RapidGeoDBService;
 import pl.aeh.rest_services_project_l1.service.app.UserViewService;
 import pl.aeh.rest_services_project_l1.service.app.UtilityService;
 
+import java.util.List;
+
 @RestController()
 @AllArgsConstructor
 @RequestMapping("/api/main")
@@ -43,14 +45,39 @@ public class AppController {
         return new ResponseEntity<>(regionInfoResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/getAllForUser/{id}")
+    public ResponseEntity<List<UserView>> getAllForUser(@PathVariable String id) {
+        if (id == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        try {
+            Long userId = Long.parseLong(id);
+            List<UserView> views = this.userViewService.getAllUserViews(userId);
+            return new ResponseEntity<>(views, HttpStatus.OK);
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("/saveView")
-    public ResponseEntity<Long> saveUserView(@RequestBody UserView userView) {
+    public ResponseEntity<UserView> saveUserView(@RequestBody UserView userView) {
         if (userView == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Long id = this.userViewService.saveUserView(userView).getId();
-        return ResponseEntity.ok(id);
+        UserView view = this.userViewService.saveUserView(userView);
+        return ResponseEntity.ok(view);
+    }
+
+    @PutMapping("/editView")
+    public ResponseEntity<UserView> editUserView(@RequestBody UserView userView) {
+        if (userView == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        UserView view = this.userViewService.saveUserView(userView);
+        return ResponseEntity.ok(view);
     }
 
     @GetMapping("/getUserView/{id}")

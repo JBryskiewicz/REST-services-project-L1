@@ -17,6 +17,8 @@ public class UserView {
 
     private Long userId;
 
+    private String viewName;
+
     // Stringified List<RegionInfoResponse> to omit unecessery relations in db
     private String regionInfo;
 }
