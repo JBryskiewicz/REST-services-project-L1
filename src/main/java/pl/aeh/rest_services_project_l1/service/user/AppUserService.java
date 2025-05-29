@@ -36,4 +36,8 @@ public class AppUserService implements UserDetailsService {
         repository.save(user);
         return "User Added Successfully";
     }
+
+    public Optional<AppUser> getUserByEmail(String email) {
+        return repository.findByEmail(email);
+    }
 }

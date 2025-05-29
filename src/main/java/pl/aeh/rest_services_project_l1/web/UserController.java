@@ -17,6 +17,7 @@ import pl.aeh.rest_services_project_l1.service.user.JwtService;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @RestController()
@@ -39,14 +40,22 @@ public class UserController {
     }
 
     @PostMapping("/generateToken")
-    public  ResponseEntity<Map<String, String>> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<Map<String, String>> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
         );
+
         if (authentication.isAuthenticated()) {
+            Optional<AppUser> maybeUser = this.appUserService.getUserByEmail(authRequest.getUsername());
             String token = jwtService.generateToken(authRequest.getUsername());
             Map<String, String> response = new HashMap<>();
-            response.put("token", token);
+
+            if (maybeUser.isPresent()) {
+                response.put("token", token);
+                response.put("userId", maybeUser.get().getId().toString());
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
