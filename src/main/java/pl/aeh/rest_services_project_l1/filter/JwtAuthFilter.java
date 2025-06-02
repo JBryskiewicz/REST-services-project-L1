@@ -26,7 +26,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String path = request.getRequestURI();
+        System.out.println("[JWT Filter] URI: " + path);
+
+        if (path.startsWith("/api/user/generateToken") || path.startsWith("/api/user/register") || path.startsWith("/api/user/check")) {
+            System.out.println("[JWT Filter] Public path detected: " + path);
+            filterChain.doFilter(request, response);
+            return;
+        }
         String authHeader = request.getHeader("Authorization");
+        System.out.println("[JWT Filter] Auth header: " + authHeader);
         String token = null;
         String username = null;
 

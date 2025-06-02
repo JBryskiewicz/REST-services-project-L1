@@ -20,5 +20,7 @@ public class UserView {
     private String viewName;
 
     // Stringified List<RegionInfoResponse> to omit unecessery relations in db
+    @Lob
+    @Column(length = 10000)
     private String regionInfo;
 }

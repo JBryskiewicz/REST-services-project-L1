@@ -41,23 +41,34 @@ public class UserController {
 
     @PostMapping("/generateToken")
     public ResponseEntity<Map<String, String>> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
-        );
+        log.info("[Auth] Próba logowania użytkownika: {}", authRequest.getUsername());
+        try {
 
-        if (authentication.isAuthenticated()) {
-            Optional<AppUser> maybeUser = this.appUserService.getUserByEmail(authRequest.getUsername());
-            String token = jwtService.generateToken(authRequest.getUsername());
-            Map<String, String> response = new HashMap<>();
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+            );
 
-            if (maybeUser.isPresent()) {
-                response.put("token", token);
-                response.put("userId", maybeUser.get().getId().toString());
+            if (authentication.isAuthenticated()) {
+                Optional<AppUser> maybeUser = this.appUserService.getUserByEmail(authRequest.getUsername());
+                String token = jwtService.generateToken(authRequest.getUsername());
+                Map<String, String> response = new HashMap<>();
+
+                if (maybeUser.isPresent()) {
+                    response.put("token", token);
+                    response.put("userId", maybeUser.get().getId().toString());
+
+                    log.info("[Auth] Logowanie udane dla: {}", authRequest.getUsername());
+                    return ResponseEntity.ok(response);
+                } else {
+                    log.warn("[Auth] Użytkownik {} nie istnieje w bazie", authRequest.getUsername());
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                }
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                log.warn("[Auth] Uwierzytelnienie nie powiodło się dla: {}", authRequest.getUsername());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
-            return ResponseEntity.ok(response);
-        } else {
+        } catch (Exception ex) {
+            log.error("[Auth] Wyjątek podczas logowania: {} - {}", ex.getClass().getSimpleName(), ex.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
