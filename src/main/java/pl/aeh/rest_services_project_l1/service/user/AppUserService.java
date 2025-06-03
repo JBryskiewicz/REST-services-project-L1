@@ -40,4 +40,8 @@ public class AppUserService implements UserDetailsService {
     public Optional<AppUser> getUserByEmail(String email) {
         return repository.findByEmail(email);
     }
+
+    public boolean checkUser(AppUser user) {
+        return user.getPassword().isEmpty() || user.getUsername().isEmpty() || user.getEmail().isEmpty();
+    }
 }

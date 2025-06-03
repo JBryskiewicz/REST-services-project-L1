@@ -36,6 +36,9 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> createAppUser(@RequestBody AppUser user) {
+        if (user == null || appUserService.checkUser(user)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         return ResponseEntity.ok(this.appUserService.createUser(user));
     }
 
