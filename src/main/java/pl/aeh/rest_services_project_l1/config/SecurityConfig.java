@@ -56,7 +56,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/user/check", "/api/user/register", "/api/user/generateToken", "/h2-console/**").permitAll()
+                        .requestMatchers("/api/user/check", "/api/user/register", "/api/user/generateToken", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/auth/user/**").hasAuthority("ROLE_USER")
                         .anyRequest().authenticated()
                 )
